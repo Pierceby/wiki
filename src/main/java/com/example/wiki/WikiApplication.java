@@ -1,4 +1,4 @@
-package com.example.wiki.config;
+package com.example.wiki;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

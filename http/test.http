@@ -13,3 +13,4 @@ client.test("test-hello",function () {
 
  %}
 ###
+GET http://localhost:8880/test/list
