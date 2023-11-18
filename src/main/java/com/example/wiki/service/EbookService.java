@@ -11,6 +11,7 @@ import com.example.wiki.util.CopyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,9 @@ public class EbookService {
         //模糊查询
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
-        criteria.andNameLike("%"+req.getName()+"%");
-
+        if(!ObjectUtils.isEmpty(req.getName())){
+            criteria.andNameLike("%"+req.getName()+"%");
+        }
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 //        ArrayList<EbookResp> ebookReqList = new ArrayList<>();
 //        for(Ebook ebook:ebookList){
