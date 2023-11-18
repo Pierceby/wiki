@@ -74,6 +74,7 @@
 import { defineComponent,onMounted,ref,reactive,toRef } from 'vue';
 import axios from 'axios';
 
+
 const listData: Record<string, string>[] = [];
 
 for (let i = 0; i < 23; i++) {
@@ -108,7 +109,6 @@ export default defineComponent({
     onMounted(()=>{
       console.log("onMounted2222")
       axios.get("/ebook/list/").then((response)=>{
-        console.log(response);
         const data = response.data;
         ebooks.value=data.content;
         ebooks1.books=data.content;
