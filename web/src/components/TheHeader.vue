@@ -3,18 +3,17 @@
   <a-layout-header class="header">
     <div class="logo" />
     <a-menu
-        v-model:selectedKeys="selectedKeys1"
         theme="dark"
         mode="horizontal"
         :style="{ lineHeight: '64px' }"
     >
-      <a-menu-item key="/home">
-        <router-link to="/home">首页</router-link>
+      <a-menu-item key="/Home">
+        <router-link to="/">首页</router-link>
       </a-menu-item>
       <a-menu-item key="/admin/admin-ebook">
         <router-link to="/admin/admin-ebook">电子书管理</router-link>
       </a-menu-item>
-      <a-menu-item key="/about">
+      <a-menu-item key="/About">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
     </a-menu>
