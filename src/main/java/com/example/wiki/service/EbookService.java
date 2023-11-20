@@ -7,6 +7,7 @@ import com.example.wiki.mapper.DemoMapper;
 import com.example.wiki.mapper.EbookMapper;
 import com.example.wiki.req.EbookReq;
 import com.example.wiki.resp.EbookResp;
+import com.example.wiki.resp.PageResp;
 import com.example.wiki.util.CopyUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -26,22 +27,22 @@ public class EbookService {
     @Autowired
     private EbookMapper ebookMapper;
 
-    private static final Logger log= LoggerFactory.getLogger(EbookService.class);
+    private static final Logger log = LoggerFactory.getLogger(EbookService.class);
 
-    public List<EbookResp> list(EbookReq req){
+    public PageResp<EbookResp> list(EbookReq req) {
 
         //模糊查询
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
-        if(!ObjectUtils.isEmpty(req.getName())){
-            criteria.andNameLike("%"+req.getName()+"%");
+        if (!ObjectUtils.isEmpty(req.getName())) {
+            criteria.andNameLike("%" + req.getName() + "%");
         }
         //与想查询的操作放在一起，以免中间有其他查询导致分页失败
-        PageHelper.startPage(2,3);
+        PageHelper.startPage(req.getPage(), req.getSize());
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
-        PageInfo<Ebook> pageInfo=new PageInfo<>(ebookList);
-        log.info("总行数：{}",pageInfo.getTotal());
-        log.info("总页数：{}",pageInfo.getPages());
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
+        log.info("总行数：{}", pageInfo.getTotal());
+        log.info("总页数：{}", pageInfo.getPages());
 
 //        ArrayList<EbookResp> ebookReqList = new ArrayList<>();
 //        for(Ebook ebook:ebookList){
@@ -50,7 +51,9 @@ public class EbookService {
 //            ebookReqList.add(ebookResp);
 //        }
         List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
-
-        return list;
+        PageResp<EbookResp> pageResp = new PageResp<>();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
+        return pageResp;
     }
 }
