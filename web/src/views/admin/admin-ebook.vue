@@ -16,7 +16,7 @@
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <a-button type="primary" @click="showModal">
+            <a-button type="primary" @click="showModal(record)">
               编辑
             </a-button>
             <a-button type="danger">
@@ -27,8 +27,29 @@
       </a-table>
     </a-layout-content>
   </a-layout>
-  <a-modal v-model:open="open" title="电子书表单" :confirm-loading="confirmLoading" @ok="handleOk">
-    <p>{{ modalText }}</p>
+  <a-modal
+      v-model:open="open"
+      title="电子书表单"
+      :confirm-loading="confirmLoading"
+      @ok="handleOk">
+    <a-form :model="ebook" :label-col="{ span:6}" :wrapper-col="{ span: 18 }">
+      <a-form-item label="封面">
+        <a-input v-model:value="ebook.cover" />
+      </a-form-item>
+      <a-form-item label="名称">
+        <a-input v-model:value="ebook.name" />
+      </a-form-item>
+      <a-form-item label="分类一">
+        <a-input v-model:value="ebook.category1Id" />
+      </a-form-item>
+      <a-form-item label="分类二">
+        <a-input v-model:value="ebook.category2Id" />
+      </a-form-item>
+      <a-form-item label="描述">
+        <a-input v-model:value="ebook.description" type="textarea" />
+      </a-form-item>
+    </a-form>
+
   </a-modal>
 </template>
 
@@ -123,9 +144,11 @@ export default defineComponent({
     const open = ref<boolean>(false);
     const confirmLoading = ref<boolean>(false);
     const modalText = ref<string>('Content of the modal');
+    const ebook=ref({});
 
-    const showModal = () => {
+    const showModal = (record:any) => {
       open.value = true;
+      ebook.value=record;
     };
 
     const handleOk = () => {
@@ -146,7 +169,8 @@ export default defineComponent({
       modalText,
       handleOk,
       open,
-      showModal
+      showModal,
+      ebook
     }
   }
 });
