@@ -38,7 +38,11 @@ public class EbookService {
             criteria.andNameLike("%" + req.getName() + "%");
         }
         //与想查询的操作放在一起，以免中间有其他查询导致分页失败
-        PageHelper.startPage(req.getPage(), req.getSize());
+        /**
+         * 1.page=0 size=0要想查询全部数据，设置reasonable=true以及pageSizezero=true
+         * 2.page!=0 size=0要想查询全部数据，设置pageSizezero=true
+         */
+        PageHelper.startPage(req.getPage(), req.getSize(),true,null,true);
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
         log.info("总行数：{}", pageInfo.getTotal());
