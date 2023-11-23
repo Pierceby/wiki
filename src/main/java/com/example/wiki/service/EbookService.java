@@ -8,6 +8,7 @@ import com.example.wiki.req.EbookSaveReq;
 import com.example.wiki.resp.EbookQueryResp;
 import com.example.wiki.resp.PageResp;
 import com.example.wiki.util.CopyUtil;
+import com.example.wiki.util.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ import java.util.List;
 public class EbookService {
     @Autowired
     private EbookMapper ebookMapper;
+    @Autowired
+    private SnowFlake snowFlake;
 
     private static final Logger log = LoggerFactory.getLogger(EbookService.class);
 
@@ -68,6 +71,7 @@ public class EbookService {
         //根据id是否有值判断是新增还是更新
         if(ObjectUtils.isEmpty(req.getId())){
             //新增
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         }
         else {
