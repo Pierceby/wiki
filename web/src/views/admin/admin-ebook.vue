@@ -152,12 +152,18 @@ export default defineComponent({
     };
 
     const handleOk = () => {
-      modalText.value = 'The modal will be closed after two seconds';
       confirmLoading.value = true;
-      setTimeout(() => {
-        open.value = false;
-        confirmLoading.value = false;
-      }, 2000);
+      axios.post("/ebook/save",ebook.value).then((response) => {
+        const data = response.data;
+        if(data.success){
+          open.value = false;
+          confirmLoading.value = false;
+          handleQuery({
+            page:pagination.value.current,
+            size:pagination.value.pageSize
+          });
+        }
+      });
     };
     return {
       ebooks,
