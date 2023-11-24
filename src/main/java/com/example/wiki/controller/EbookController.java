@@ -7,10 +7,7 @@ import com.example.wiki.resp.EbookQueryResp;
 import com.example.wiki.resp.PageResp;
 import com.example.wiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EbookController {
@@ -27,6 +24,12 @@ public class EbookController {
     public CommonResp save(@RequestBody EbookSaveReq req){
         CommonResp resp = new CommonResp<>();
         ebookService.save(req);
+        return resp;
+    }
+    @DeleteMapping("/ebook/delete/{id}")
+    public CommonResp delete(@PathVariable Long id){
+        CommonResp resp = new CommonResp<>();
+        ebookService.delete(id);
         return resp;
     }
 }
