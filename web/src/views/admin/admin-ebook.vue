@@ -9,12 +9,12 @@
             <a-input v-model:value="param.name" placeholder="名称"></a-input>
           </a-form-item>
           <a-form-item>
-            <a-button type="primarry" @click="handleQuery({page:1,size:pagination.pageSize})">
+            <a-button type="primary" @click="handleQuery({page:1,size:pagination.pageSize})">
               查询
             </a-button>
           </a-form-item>
           <a-form-item>
-            <a-button type="primary" @click="add()" size="large">
+            <a-button type="primary" @click="add()">
               新增
             </a-button>
           </a-form-item>
@@ -82,6 +82,7 @@
 import {defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue'
+import { Tool } from '@/util/tool';
 
 export default defineComponent({
   name: 'AdminEbook',
@@ -179,7 +180,7 @@ export default defineComponent({
 
     const showModal = (record:any) => {
       open.value = true;
-      ebook.value=record;
+      ebook.value=Tool.copy(record);
     };
 
     const handleOk = () => {
