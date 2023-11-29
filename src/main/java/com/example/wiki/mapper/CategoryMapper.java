@@ -3,8 +3,10 @@ package com.example.wiki.mapper;
 import com.example.wiki.domain.Category;
 import com.example.wiki.domain.CategoryExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface CategoryMapper {
     long countByExample(CategoryExample example);
 
