@@ -28,10 +28,21 @@ public class CategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
 
+    public List<CategoryQueryResp> all() {
+
+        //模糊查询
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+
+        List<CategoryQueryResp> list = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
+        return list;
+    }
     public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
 
         //模糊查询
         CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         //与想查询的操作放在一起，以免中间有其他查询导致分页失败
         /**
