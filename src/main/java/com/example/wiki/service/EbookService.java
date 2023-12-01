@@ -36,6 +36,9 @@ public class EbookService {
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+        if (!ObjectUtils.isEmpty(req.getCategoryId2())) {
+            criteria.andCategory2IdEqualTo(req.getCategoryId2());
+        }
         //与想查询的操作放在一起，以免中间有其他查询导致分页失败
         /**
          * 1.page=0 size=0要想查询全部数据，设置reasonable=true以及pageSizezero=true

@@ -90,6 +90,7 @@ export default defineComponent({
     const openKeys=ref();
     let categorys: any;
     const isShowWelcome=ref(true);
+    let categoryId2=0;
     /**
      * 查询所有分类
      **/
@@ -116,20 +117,30 @@ export default defineComponent({
     };
     const handleClick=(value:any)=>{
       console.log("menu click",value);
-      isShowWelcome.value = value.key === 'welcome';
+      if(value.key==='welcome'){
+        isShowWelcome.value =true;
+      }
+      else {
+        isShowWelcome.value=false;
+        categoryId2=value.key;
+      }
+      handleQueryEbook();
     }
-    onMounted(()=>{
-      handleQueryCategory();
+    const handleQueryEbook=()=>{
       axios.get("/ebook/list/",{
         params:{
           page:1,
-          size:1000
+          size:1000,
+          categoryId2: categoryId2
         }
       }).then((response)=>{
         const data = response.data;
         ebooks.value=data.content.list;
         //ebooks1.books=data.content;
       });
+    }
+    onMounted(()=>{
+      handleQueryCategory();
     })
     return {
       ebooks,
