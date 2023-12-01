@@ -166,10 +166,7 @@ export default defineComponent({
     };
     onMounted(() => {
       handleQueryCategory();
-      handleQuery({
-        page:1,
-        size:pagination.value.pageSize
-      });
+
     });
 
     const open = ref<boolean>(false);
@@ -191,6 +188,12 @@ export default defineComponent({
           level1.value = [];
           level1.value = Tool.array2Tree(categorys, 0);
           console.log("树形结构：", level1);
+
+          //先加载分类，后加载电子书，否则分类树加载很慢，电子书渲染会报错
+          handleQuery({
+            page:1,
+            size:pagination.value.pageSize
+          });
         }else {
           message.error(data.message);
         }
