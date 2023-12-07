@@ -1,5 +1,6 @@
 package com.example.wiki.service;
 
+import com.example.wiki.domain.CategoryExample;
 import com.example.wiki.domain.Doc;
 import com.example.wiki.domain.DocExample;
 import com.example.wiki.mapper.DocMapper;
@@ -11,6 +12,7 @@ import com.example.wiki.util.CopyUtil;
 import com.example.wiki.util.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mysql.cj.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +97,11 @@ public class DocService {
     public void delete(Long id) {
         int i = docMapper.deleteByPrimaryKey(id);
         log.info("删除行数{}",i);
+    }
+    public void delete(List<String> ids) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
+        docMapper.deleteByExample(docExample);
     }
 }
