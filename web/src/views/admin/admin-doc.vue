@@ -79,11 +79,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue';
+import {createVNode, defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
-import {message} from 'ant-design-vue'
+import {message, Modal} from 'ant-design-vue'
 import { Tool } from '@/util/tool';
 import {useRoute} from "vue-router";
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'AdminDoc',
@@ -114,7 +115,8 @@ export default defineComponent({
      */
     const level1 = ref(); // 一级文档树，children属性就是二级文档
     level1.value = [];
-    const ids: Array<string>=[];
+    const deleteIds: Array<string>=[];
+    const deleteNames: Array<string>=[];
 
     const getDeleteIds = (treeSelectData: any, id: any) => {
       // console.log(treeSelectData, id);
@@ -126,8 +128,8 @@ export default defineComponent({
           console.log("delete", node);
           // 将目标节点设置为disabled
           //node.disabled = true;
-          ids.push(id);
-
+          deleteIds.push(id);
+          deleteNames.push(node.name);
           // 遍历所有子节点
           const children = node.children;
           if (Tool.isNotEmpty(children)) {
@@ -268,14 +270,26 @@ export default defineComponent({
     };
 
     const handleDelete=(id:number)=>{
+      deleteIds.length = 0;
+      deleteNames.length = 0;
       getDeleteIds(level1.value,id);
-      console.log("ids集合：",ids);
-      axios.delete("/doc/delete/"+ids.join(",")).then((response) => {
-        const data = response.data;
-        if(data.success){
-          //重新加载列表
-          handleQuery();
-        }
+      console.log("deleteIds集合：",deleteIds);
+      Modal.confirm({
+        title: '重要提醒',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '将删除：【' + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
+        onOk() {
+          // console.log(deleteIds)
+          axios.delete("/doc/delete/" + deleteIds.join(",")).then((response) => {
+            const data = response.data; // data = commonResp
+            if (data.success) {
+              // 重新加载列表
+              handleQuery();
+            } else {
+              message.error(data.message);
+            }
+          });
+        },
       });
     }
 
