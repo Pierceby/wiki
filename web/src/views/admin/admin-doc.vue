@@ -206,6 +206,8 @@ export default defineComponent({
      * 新增
      */
     const add = () => {
+      //清空富文本框
+      editor.txt.html("");
       open.value = true;
       doc.value = {
         ebookId: route.query.ebookId
@@ -216,6 +218,8 @@ export default defineComponent({
       treeSelectData.value.unshift({id: 0, name: '无'});
     };
     const  showModal= (record: any) => {
+      //清空富文本框
+      editor.txt.html("");
       open.value = true;
       doc.value = Tool.copy(record);
       handleQueryContent();
@@ -293,7 +297,7 @@ export default defineComponent({
         confirmLoading.value = false;
         const data = response.data;
         if(data.success){
-          open.value = false;
+          message.success("保存成功！");
           handleQuery();
         }else {
           message.error(data.message);
