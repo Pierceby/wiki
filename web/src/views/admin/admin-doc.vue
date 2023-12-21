@@ -267,10 +267,12 @@ export default defineComponent({
     const open = ref<boolean>(false);
     const confirmLoading = ref<boolean>(false);
     const modalText = ref<string>('Content of the modal');
-    const doc=ref({});
+    const doc=ref();
+    doc.value={};
 
     const handleSave = () => {
       confirmLoading.value = true;
+      doc.value.content=editor.txt.html();
       axios.post("/doc/save",doc.value).then((response) => {
         confirmLoading.value = false;
         const data = response.data;
