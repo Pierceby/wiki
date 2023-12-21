@@ -218,6 +218,7 @@ export default defineComponent({
     const  showModal= (record: any) => {
       open.value = true;
       doc.value = Tool.copy(record);
+      handleQueryContent();
 
       // 不能选择当前节点及其所有子孙节点，作为父节点，会使树断开
       treeSelectData.value = Tool.copy(level1.value);
@@ -251,6 +252,21 @@ export default defineComponent({
           level1.value = [];
           level1.value = Tool.array2Tree(docs.value, 0);
           console.log("树形结构：", level1);
+        }else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    /**
+     * 内容查询
+     */
+    const handleQueryContent = () => {
+      axios.get("/doc/find-content/"+doc.value.id).then((response) => {
+        loading.value = false;
+        const data = response.data;
+        if(data.success){
+          editor.txt.html(data.content);
         }else {
           message.error(data.message);
         }

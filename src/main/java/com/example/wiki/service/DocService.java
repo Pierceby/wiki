@@ -116,4 +116,11 @@ public class DocService {
         criteria.andIdIn(ids);
         docMapper.deleteByExample(docExample);
     }
+    public String findContent(Long id) {
+        Content content = contentMapper.selectByPrimaryKey(id);
+        if(content!=null){
+            return content.getContent();
+        }
+        return null;
+    }
 }
