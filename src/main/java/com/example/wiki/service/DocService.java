@@ -34,10 +34,11 @@ public class DocService {
 
     private static final Logger log = LoggerFactory.getLogger(DocService.class);
 
-    public List<DocQueryResp> all() {
+    public List<DocQueryResp> all(Long ebookId) {
 
         //模糊查询
         DocExample docExample = new DocExample();
+        docExample.createCriteria().andEbookIdEqualTo(ebookId);
         docExample.setOrderByClause("sort asc");
         List<Doc> docList = docMapper.selectByExample(docExample);
 
@@ -118,9 +119,10 @@ public class DocService {
     }
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
-        if(content!=null){
-            return content.getContent();
+        if(ObjectUtils.isEmpty(content)){
+            return "";
         }
-        return null;
+        return content.getContent();
+
     }
 }
