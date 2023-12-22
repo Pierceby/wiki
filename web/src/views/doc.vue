@@ -16,7 +16,7 @@
             </a-tree>
           </a-col>
           <a-col :span="18">
-
+            <div class="wangeditor" :innerHTML="html"></div>
           </a-col>
         </a-row>
       </div>
