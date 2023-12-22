@@ -12,6 +12,3 @@ export default defineComponent({
   name: 'TheFooter',
 });
 </script>
-
-<script setup lang="ts">
-</script>
