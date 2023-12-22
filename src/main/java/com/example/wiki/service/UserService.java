@@ -6,6 +6,7 @@ import com.example.wiki.exception.BusinessException;
 import com.example.wiki.exception.BusinessExceptionCode;
 import com.example.wiki.mapper.UserMapper;
 import com.example.wiki.req.UserQueryReq;
+import com.example.wiki.req.UserResetPasswordReq;
 import com.example.wiki.req.UserSaveReq;
 import com.example.wiki.resp.UserQueryResp;
 import com.example.wiki.resp.PageResp;
@@ -88,6 +89,13 @@ public class UserService {
             user.setPassword(null);
             userMapper.updateByPrimaryKeySelective(user);
         }
+    }
+    /**
+     * 修改密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
     public User selectByLoginName(String loginName) {
         UserExample userExample = new UserExample();

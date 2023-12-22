@@ -226,7 +226,6 @@
       const resetModalLoading = ref(false);
       const handleResetModalOk = () => {
         resetModalLoading.value = true;
-
         user.value.password = hexMd5(user.value.password + KEY);
 
         axios.post("/user/reset-password", user.value).then((response) => {
@@ -234,7 +233,6 @@
           const data = response.data; // data = commonResp
           if (data.success) {
             resetModalVisible.value = false;
-
             // 重新加载列表
             handleQuery({
               page: pagination.value.current,
