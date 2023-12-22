@@ -173,15 +173,12 @@
       const confirmLoading = ref<boolean>(false);
       const handleOk = () => {
         confirmLoading.value = true;
-
-        //user.value.password = hexMd5(user.value.password + KEY);
-
+        user.value.password = hexMd5(user.value.password + KEY);
         axios.post("/user/save", user.value).then((response) => {
           confirmLoading.value = false;
           const data = response.data; // data = commonResp
           if (data.success) {
             open.value = false;
-
             // 重新加载列表
             handleQuery({
               page: pagination.value.current,
