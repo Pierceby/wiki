@@ -10,6 +10,9 @@
       <a-menu-item key="/Home">
         <router-link to="/">首页</router-link>
       </a-menu-item>
+      <a-menu-item key="/admin/admin-user">
+        <router-link to="/admin/admin-user">用户管理</router-link>
+      </a-menu-item>
       <a-menu-item key="/admin/admin-ebook">
         <router-link to="/admin/admin-ebook">电子书管理</router-link>
       </a-menu-item>

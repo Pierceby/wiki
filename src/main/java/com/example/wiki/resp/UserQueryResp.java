@@ -1,6 +1,6 @@
-package com.example.wiki.domain;
+package com.example.wiki.resp;
 
-public class User {
+public class UserQueryResp {
     private Long id;
 
     private String loginName;

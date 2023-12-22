@@ -25,6 +25,10 @@
                         connectionURL="jdbc:mysql://localhost/wiki"
                         userId="root"
                         password="root">
+            <!--mysql8.x以上在生成时如果遇到表名与mysql自带的相同，
+            则会按mysql自带的表生成代码，
+            需要配置一个property属性到jdbcConnection标签中-->
+            <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
         <!-- domain类的位置 -->
