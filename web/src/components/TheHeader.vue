@@ -1,10 +1,11 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo" />
+<!--    <div class="logo" />-->
     <a-menu
         theme="dark"
         mode="horizontal"
         :style="{ lineHeight: '64px'}"
+        class="menu-container"
     >
       <a-menu-item key="/">
         <router-link to="/">首页</router-link>
@@ -21,12 +22,21 @@
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
-      <a-menu-item class="login-menu">
-        <a v-show="user.id">您好：{{user.name}}</a>
-          <a @click="showLoginModal" v-show="!user.id">登录</a>
-      </a-menu-item>
     </a-menu>
-
+    <div class="right-menu">
+      <a  v-show="user.id">您好:{{user.name}}</a>
+      <a-popconfirm
+          title="确认退出登录?"
+          ok-text="是"
+          cancel-text="否"
+          @confirm="logout()"
+      >
+        <a  v-show="user.id" >
+          <span>退出登录</span>
+        </a>
+      </a-popconfirm>
+      <a  @click="showLoginModal" v-show="!user.id">登录</a>
+    </div>
     <a-modal
         title="登录"
         v-model:visible="loginModalVisible"
@@ -81,7 +91,22 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("登录成功！");
-          store.commit("setUser",user.value);
+          store.commit("setUser",data.content);
+        } else {
+          message.error(data.message);
+        }
+        loginUser.value.password="test123";
+      });
+    };
+
+    // 退出登录
+    const logout = () => {
+      console.log("退出登录开始");
+      axios.get('/user/logout/' + user.value.token).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          message.success("退出登录成功！");
+          store.commit("setUser", {});
         } else {
           message.error(data.message);
         }
@@ -93,6 +118,7 @@ export default defineComponent({
       showLoginModal,
       loginUser,
       login,
+      logout,
       user
     }
   }
@@ -105,13 +131,26 @@ export default defineComponent({
     height: 31px;
     /*background: rgba(255, 255, 255, 0.2);*/
     /*margin: 16px 28px 16px 0;*/
-    float: left;
+    //float: left;
     color: white;
     font-size: 18px;
   }
-
-  /* 登录链接 */
-  .login-menu {
-    margin-left: auto !important;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #001529;
   }
+  .right-menu {
+    display: flex;
+    align-items: center;
+  }
+  .right-menu a {
+    margin-left: 10px;
+    color: white;
+  }
+  .menu-container {
+    margin-left: 150px !important;/* 整体向左移动的距离 */
+  }
+
 </style>
