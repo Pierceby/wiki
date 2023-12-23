@@ -22,9 +22,9 @@
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
       <a-menu-item class="login-menu">
-          <a @click="showLoginModal" >登录</a>
+        <a v-show="user.id">您好：{{user.name}}</a>
+          <a @click="showLoginModal" v-show="!user.id">登录</a>
       </a-menu-item>
-
     </a-menu>
 
     <a-modal
@@ -55,8 +55,8 @@ declare let KEY: any;
 export default defineComponent({
   name: 'TheHeader',
   setup () {
-    // 登录后保存
-    //const user = computed(() => store.state.user);
+    const user=ref();
+    user.value={};
     // 用来登录
     const loginUser = ref({
       loginName: "test",
@@ -81,8 +81,7 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("登录成功！");
-
-          store.commit("setUser", data.content);
+          user.value=data.content;
         } else {
           message.error(data.message);
         }
@@ -93,7 +92,8 @@ export default defineComponent({
       loginModalLoading,
       showLoginModal,
       loginUser,
-      login
+      login,
+      user
     }
   }
 });
