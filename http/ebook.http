@@ -1,4 +1,9 @@
 GET http://localhost:8880/ebook/list/?page=1&size=1001
 ###
 
-GET http://localhost:8880/category/all
+POST http://localhost:8880/ebook/save
+Content-Type: application/json
+
+{}
+###
+GET http://localhost:8088/redis
