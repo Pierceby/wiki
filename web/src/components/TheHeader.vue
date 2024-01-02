@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-<!--    <div class="logo" />-->
+    <!--    <div class="logo" />-->
     <a-menu
         theme="dark"
         mode="horizontal"
@@ -11,35 +11,37 @@
         <router-link to="/">首页</router-link>
       </a-menu-item>
       <a-menu-item key="/admin/admin-user">
-        <router-link to="/admin/admin-user">用户管理</router-link>
+        <router-link to="/admin/admin-user" :style="user.id? {} : {display:'none'}">用户管理</router-link>
       </a-menu-item>
-      <a-menu-item key="/admin/admin-ebook">
+      <a-menu-item key="/admin/admin-ebook" :style="user.id? {} : {display:'none'}">
         <router-link to="/admin/admin-ebook">电子书管理</router-link>
       </a-menu-item>
-      <a-menu-item key="/admin/admin-category">
+      <a-menu-item key="/admin/admin-category" :style="user.id? {} : {display:'none'}">
         <router-link to="/admin/admin-category">分类管理</router-link>
       </a-menu-item>
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
-    </a-menu>
-    <div class="right-menu">
-      <a  v-show="user.id">您好:{{user.name}}</a>
       <a-popconfirm
           title="确认退出登录?"
           ok-text="是"
           cancel-text="否"
           @confirm="logout()"
       >
-        <a  v-show="user.id" >
+        <a class="login-menu" v-show="user.id">
           <span>退出登录</span>
         </a>
       </a-popconfirm>
-      <a  @click="showLoginModal" v-show="!user.id">登录</a>
-    </div>
+      <a class="login-menu" v-show="user.id">
+        <span>您好：{{user.name}}</span>
+      </a>
+      <a class="login-menu" v-show="!user.id" @click="showLoginModal">
+        <span>登录</span>
+      </a>
+    </a-menu>
     <a-modal
         title="登录"
-        v-model:visible="loginModalVisible"
+        v-model:open="loginModalVisible"
         :confirm-loading="loginModalLoading"
         @ok="login"
     >
@@ -54,7 +56,6 @@
     </a-modal>
   </a-layout-header>
 </template>
-
 <script lang="ts">
 import store from '@/store';
 import { message } from 'ant-design-vue';
@@ -126,31 +127,18 @@ export default defineComponent({
 </script>
 
 <style>
-  .logo {
-    width: 120px;
-    height: 31px;
-    /*background: rgba(255, 255, 255, 0.2);*/
-    /*margin: 16px 28px 16px 0;*/
-    //float: left;
-    color: white;
-    font-size: 18px;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #001529;
-  }
-  .right-menu {
-    display: flex;
-    align-items: center;
-  }
-  .right-menu a {
-    margin-left: 10px;
-    color: white;
-  }
-  .menu-container {
-    margin-left: 150px !important;/* 整体向左移动的距离 */
-  }
-
+.logo {
+  width: 120px;
+  height: 31px;
+  /*background: rgba(255, 255, 255, 0.2);*/
+  /*margin: 16px 28px 16px 0;*/
+  float: left;
+  color: white;
+  font-size: 18px;
+}
+.login-menu {
+  float: right;
+  color: white;
+  padding-left: 10px;
+}
 </style>
