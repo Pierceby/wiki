@@ -25,6 +25,11 @@
               <a-divider style="height: 2px; background-color: #9999cc"/>
             </div>
             <div class="wangeditor" :innerHTML="html"></div>
+            <div class="vote-div">
+              <a-button type="primary" shape="round" :size="'large'" @click="vote">
+                <template #icon><LikeOutlined /> &nbsp;点赞：{{doc.voteCount}} </template>
+              </a-button>
+            </div>
           </a-col>
         </a-row>
       </div>
@@ -141,7 +146,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style >
 /* wangeditor默认样式, 参照: http://www.wangeditor.com/doc/pages/02-%E5%86%85%E5%AE%B9%E5%A4%84%E7%90%86/03-%E8%8E%B7%E5%8F%96html.html */
 /* table 样式 */
 .wangeditor table {
