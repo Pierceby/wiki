@@ -1,11 +1,10 @@
 <template>
   <a-layout-header class="header">
-    <!--    <div class="logo" />-->
+    <div class="logo" />
     <a-menu
         theme="dark"
         mode="horizontal"
         :style="{ lineHeight: '64px'}"
-        class="menu-container"
     >
       <a-menu-item key="/">
         <router-link to="/">首页</router-link>
@@ -126,7 +125,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .logo {
   width: 120px;
   height: 31px;
