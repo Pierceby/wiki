@@ -7,7 +7,10 @@ import java.util.List;
 
 @Mapper
 public interface DocMapperCust {
-    public void increaseViewCount(Long id);
+    void increaseViewCount(Long id);
 
     void increaseVoteCount(Long id);
+
+    void updateEbookInfo();
+
 }
