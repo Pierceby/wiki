@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan("com.example")
 @SpringBootApplication
 @EnableScheduling
+@EnableAsync
 public class WikiApplication {
     private static final Logger LOG = LoggerFactory.getLogger(WikiApplication.class);
 
