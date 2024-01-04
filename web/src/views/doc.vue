@@ -92,7 +92,6 @@ export default defineComponent({
         const data = response.data;
         if (data.success) {
           docs.value = data.content;
-
           level1.value = [];
           level1.value = Tool.array2Tree(docs.value, 0);
 
@@ -101,6 +100,8 @@ export default defineComponent({
             handleQueryContent(level1.value[0].id);
             // 初始显示文档信息
             doc.value = level1.value[0];
+            console.log("999");
+            console.log(doc.value);
           }
         } else {
           message.error(data.message);
@@ -112,7 +113,11 @@ export default defineComponent({
       console.log('selected', selectedKeys, info);
       if (Tool.isNotEmpty(selectedKeys)) {
         // 选中某一节点时，加载该节点的文档信息
-        doc.value = info.selectedNodes[0].props;
+        console.log("000");
+        console.log(info.selectedNodes[0]);
+        doc.value = info.selectedNodes[0];
+        console.log(111);
+        console.log(doc.value);
         // 加载内容
         handleQueryContent(selectedKeys[0]);
       }
