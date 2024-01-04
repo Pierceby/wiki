@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class DocService {
     private RedisUtil redisUtil;
 
     @Autowired
-    private WebSocketServer webSocketServer;
+    private WsService wsService;
 
     private static final Logger log = LoggerFactory.getLogger(DocService.class);
 
@@ -96,6 +97,7 @@ public class DocService {
      * 保存
      * @param req
      */
+    @Transactional
     public void save(DocSaveReq req) {
         Doc doc = new Doc();
         doc = CopyUtil.copy(req, Doc.class);
@@ -162,7 +164,7 @@ public class DocService {
         // 推送消息
         Doc docDb = docMapper.selectByPrimaryKey(id);
         String logId = MDC.get("LOG_ID");
-        webSocketServer.sendInfo("【" + docDb.getName() + "】被点赞！");
+        wsService.sendInfo("【" + docDb.getName() + "】被点赞！",logId);
         // rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
     }
     public void updateEbookInfo() {
