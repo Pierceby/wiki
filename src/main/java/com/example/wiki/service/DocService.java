@@ -17,11 +17,13 @@ import com.example.wiki.util.CopyUtil;
 import com.example.wiki.util.RedisUtil;
 import com.example.wiki.util.RequestContext;
 import com.example.wiki.util.SnowFlake;
+import com.example.wiki.websocket.WebSocketServer;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mysql.cj.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -42,6 +44,9 @@ public class DocService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     private static final Logger log = LoggerFactory.getLogger(DocService.class);
 
@@ -154,6 +159,11 @@ public class DocService {
         } else {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+        // 推送消息
+        Doc docDb = docMapper.selectByPrimaryKey(id);
+        String logId = MDC.get("LOG_ID");
+        webSocketServer.sendInfo("【" + docDb.getName() + "】被点赞！");
+        // rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
     }
     public void updateEbookInfo() {
         docMapperCust.updateEbookInfo();
